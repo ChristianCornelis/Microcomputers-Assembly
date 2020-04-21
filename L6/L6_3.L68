@@ -1,0 +1,55 @@
+00008000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 10/26/2016 6:17:17 PM
+
+00000000                             1  *Lab6_3.x68: Christian Cornelis
+00000000                             2       
+00008000                             3           ORG         $8000
+00008000  41F9 00009000              4  START    LEA         MATRIX,A0
+00008006  4280                       5           CLR.L       D0
+00008008  4281                       6           CLR.L       D1
+0000800A  4282                       7           CLR.L       D2
+0000800C  4283                       8           CLR.L       D3
+0000800E  4284                       9           CLR.L       D4
+00008010  0C00 0002                 10  FOR1     CMPI.B      #2,D0                ;seeing if D0 is 2
+00008014  6E00 0036                 11           BGT         EXIT                 ;branch to exit
+00008018  1200                      12           MOVE.B      D0,D1
+0000801A  5201                      13           ADD.B       #1,D1                ;moving i to D1 and then adding 1
+0000801C  0C01 0003                 14  FOR2     CMPI.B      #3,D1                ;seeing if j is 3
+00008020  6E00 0026                 15           BGT         ITERATEI             ;branching to i iteration
+00008024  1600                      16           MOVE.B      D0,D3
+00008026  C6FC 0004                 17           MULU        #4,D3                ;row x number of columns
+0000802A  D601                      18           ADD.B       D1,D3
+0000802C  1430 3800                 19           MOVE.B      (A0,D3.L),D2         ;moving number to D2
+00008030  1801                      20           MOVE.B      D1,D4                ;move D1 to D4
+00008032  C8FC 0004                 21           MULU        #4,D4
+00008036  D800                      22           ADD.B       D0,D4
+00008038  D601                      23           ADD.B       D1,D3
+0000803A  11B0 4800 3800            24           MOVE.B      (A0,D4.L),(A0,D3.L)
+00008040  1182 4800                 25           MOVE.B      D2,(A0,D4.L)
+00008044  5201                      26           ADD.B       #1,D1
+00008046  60D4                      27           BRA         FOR2
+00008048  5200                      28  ITERATEI ADD.B       #1,D0
+0000804A  60C4                      29           BRA         FOR1
+0000804C  4E4E                      30  EXIT     TRAP        #14
+0000804E                            31        
+00009000                            32           ORG         $9000
+00009000= 01 02 03 04               33  MATRIX   DC.B        1,2,3,4
+00009004= 05 06 07 08               34           DC.B        5,6,7,8
+00009008= 09 0A 0B 0C               35           DC.B        9,10,11,12
+0000900C= 0D 0E 0F 10               36           DC.B        13,14,15,16
+00009010                            37           END         START
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+EXIT                804C
+FOR1                8010
+FOR2                801C
+ITERATEI            8048
+MATRIX              9000
+START               8000

@@ -1,0 +1,44 @@
+
+Source file: L9_2.X68
+Assembled on: 16-11-16 at: 19:17:23
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1  00008024                        ORG       $8024
+    2  00008024 4EF900008500           JMP       T5
+    3                        
+    4  00008500                        ORG       $8500
+    5                        T5:       ;ORI                            ;#%1000000000000000,SR
+***** Invalid operation code.
+    6  00008500 4FF900009000           LEA       $9000,SP
+    7  00008506 3F03                   MOVE.W    D3,-(SP)
+    8  00008508 61000008               BSR       DISPLAY
+    9  0000850C 4FEF0002               LEA       2(SP),SP
+   10  00008510 4E73                   RTE       
+   11  00008512 4E56FFFC     DISPLAY:  LINK      A6,#-4
+   12  00008516 48E78000               MOVEM.L   D0,-(SP)
+   13  0000851A 4280                   CLR.L     D0
+   14  0000851C 302E0008               MOVE.W    8(A6),D0
+   15  00008520 81FC000A               DIVS      #10,D0
+   16  00008524 3D40FFFC               MOVE.W    D0,-4(A6)             ;;moving quotient
+   17  00008528 4840                   SWAP      D0                    ;;swapping D0
+   18  0000852A 3D40FFFE               MOVE.W    D0,-2(A6)             ;;moving remainder
+   19  0000852E 0C6E0000FFFC           CMPI.W    #0,-4(A6)
+   20  00008534 6700000C               BEQ       ELSE
+   21  00008538 3F2EFFFC               MOVE.W    -4(A6),-(SP)
+   22  0000853C 61D4                   BSR       DISPLAY
+   23  0000853E 4FEF0002               LEA       2(SP),SP
+   24  00008542 4280         ELSE:     CLR.L     D0
+   25  00008544 302EFFFE               MOVE.W    -2(A6),D0
+   26  00008548 06000030               ADD.B     #$30,D0               ;;converting to ASCII
+   27  0000854C 4E41                   TRAP      #1                    ;;printing what's in D1
+   28  0000854E 4CDF0001               MOVEM.L   (SP)+,D0
+   29  00008552 4E5E                   UNLK      A6
+   30  00008554 4E75                   RTS       
+   31                                  
+   32  00009500                        ORG       $9500
+   33  00009500 4E45         START:    TRAP      #5
+   34  00009502 4E4E                   TRAP      #14
+   35           00009500               END       START
+
+Lines: 35, Errors: 1, Warnings: 0.

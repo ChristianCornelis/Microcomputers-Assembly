@@ -1,0 +1,26 @@
+
+Source file: L5_3.X68
+Assembled on: 16-10-19 at: 19:21:26
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                        *Lab5_3.x68: Christian Cornelis
+    2                          
+    3  00008000                        ORG       $8000
+    4  00008000 103900009000 START:    MOVE.B    HEXVAL,D0
+    5  00008006 06000030               ADD.B     #$30,D0
+    6  0000800A 0C000039               CMPI.B    #$39,D0               ;;comparing hexVal and 39
+    7  0000800E 6F00001A               BLE       EXIT                  ;;if false, exit
+    8  00008012 13C000009000           MOVE.B    D0,HEXVAL             ;;storing d0 back into hexVal
+    9  00008018 5E00                   ADD.B     #$7,D0                ;;else add 7 to charCode
+   10  0000801A 13C000009001           MOVE.B    D0,CHARCODE
+   11  00008020 123900009001           MOVE.B    CHARCODE,D1
+   12  00008026 60000002               BRA       EXIT
+   13  0000802A 4E4E         EXIT:     TRAP      #14                   ;;exitting
+   14                        
+   15  00009000                        ORG       $9000
+   16  00009000 05           HEXVAL:   DC.B      $5
+   17  00009001 00           CHARCODE: DC.B      $0
+   18           00008000               END       START
+
+Lines: 18, Errors: 0, Warnings: 0.

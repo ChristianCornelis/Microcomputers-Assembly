@@ -1,0 +1,26 @@
+
+Source file: L7_1.X68
+Assembled on: 16-11-02 at: 17:15:32
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                        *L7_1.x68 Christian Cornelis
+    2  00008000                        ORG       $8000
+    3  00008000 303C0014     START:    MOVE.W    #20,D0
+    4  00008004 323C0014               MOVE.W    #20,D1
+    5  00008008 4282                   CLR.L     D2                    ;;clearing D2
+    6  0000800A 0C410001               CMPI.W    #1,D1                 ;;if D1 is 1 initially
+    7  0000800E 66000008               BNE       LOOP
+    8  00008012 D440                   ADD.W     D0,D2
+    9  00008014 60000014               BRA       EXIT
+   10  00008018 E249         LOOP:     LSR.W     #1,D1                 ;;dividing D1 by 2
+   11  0000801A 64000004               BCC       MULT                  ;;if C flag is clear, check loop condition
+   12  0000801E D440                   ADD.W     D0,D2                 ;;adding to sum
+   13  00008020 E348         MULT:     LSL.W     #1,D0                 ;;multiply D0 by 2
+   14  00008022 0C410001               CMPI.W    #1,D1                 ;;if D1 is 1, then exit, otherwise loop again
+   15  00008026 66F0                   BNE       LOOP
+   16  00008028 D440                   ADD.W     D0,D2
+   17  0000802A 4E4E         EXIT:     TRAP      #14                   ;;exitting
+   18           00008000               END       START
+
+Lines: 18, Errors: 0, Warnings: 0.

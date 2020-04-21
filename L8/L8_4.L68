@@ -1,0 +1,63 @@
+00008000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 11/9/2016 8:20:19 PM
+
+00008000                             1          ORG      $8000
+00008000  4240                       2  START   CLR      D0
+00008002  4241                       3          CLR      D1
+00008004  41F9 A0A0A0A0              4          LEA      $a0a0a0a0,A0
+0000800A  43F9 A1A1A1A1              5          LEA      $a1a1a1a1,A1
+00008010  4FF9 00009020              6          LEA      $9020,sp
+00008016  3F39 00009500              7          MOVE.W   x,-(sp)
+0000801C  3F39 00009502              8          MOVE.W   y,-(sp)
+00008022  4879 00009504              9          PEA      z
+00008028  4EB9 00008034             10          JSR      square
+0000802E  4FEF 0008                 11          LEA      8(sp), sp
+00008032  4E4E                      12          TRAP     #14
+00008034                            13          
+00008034  4E50 FFFA                 14  square  LINK     A0,#-6
+00008038  48A7 C040                 15          MOVEM    D0-D1/A1, -(sp)
+0000803C  3028 000E                 16          MOVE.W   14(A0),D0      ;moving x to D0
+00008040  C1C0                      17          MULS     D0,D0          ;square x
+00008042  3140 FFFE                 18          MOVE.W   D0,-2(A0)      ;store in u
+00008046  3028 000C                 19          MOVE.W   12(A0),D0      ;move y to D0
+0000804A  C1C0                      20          MULS     D0,D0          ;square y
+0000804C  3140 FFFC                 21          MOVE.W   D0,-4(A0)      ;store in v
+00008050  3028 000E                 22          MOVE.W   14(A0),D0      ;get x in d0
+00008054  C1FC 0002                 23          MULS     #2,D0          ;multiply d0 by 2
+00008058  3228 000C                 24          MOVE.W   12(A0),D1      ;move y to d1
+0000805C  C1C1                      25          MULS     D1,D0          ;multiply d0 and d1
+0000805E  3140 FFFA                 26          MOVE.W   D0,-6(A0)      ;store in w
+00008062  3028 FFFE                 27          MOVE.W   -2(A0),D0      ;move u into d0
+00008066  3228 FFFC                 28          MOVE.W   -4(A0),D1      ;move v into d1
+0000806A  D240                      29          ADD.W    D0,D1          ;adding u and v
+0000806C  3028 FFFA                 30          MOVE.W   -6(A0),D0      ;moving w to d0
+00008070  D041                      31          ADD.W    D1,D0          ;adding u+v+w
+00008072  43E8 0008                 32          LEA      8(A0),A1       ;moving z to A1
+00008076  3280                      33          MOVE.W   D0,(A1)        ;adding d0 to z
+00008078  4CDF 0203                 34          MOVEM.L  (sp)+,D0-D1/A1 ;returning register data
+0000807C  4E58                      35          UNLK     A0             ;unlinking
+0000807E  4E75                      36          RTS                     ;return
+00008080                            37           
+00008080                            38  
+00008080                            39  
+00008080                            40  
+00008080                            41  
+00009500                            42          ORG    $9500
+00009500= 0002                      43  x       DC.W   2
+00009502= 0003                      44  y       DC.W   3
+00009504= 0004                      45  z       DC.W   4
+00009506                            46          END    START 
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+SQUARE              8034
+START               8000
+X                   9500
+Y                   9502
+Z                   9504

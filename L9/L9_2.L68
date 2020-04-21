@@ -1,0 +1,51 @@
+00009500 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 11/16/2016 7:20:31 PM
+
+00008024                             1            ORG     $8024
+00008024  4EF9 00008500              2            JMP     T5
+0000802A                             3  
+00008500                             4            ORG     $8500
+00008500                             5  T5        ;ORI     #%1000000000000000,SR
+00008500  4FF9 00009000              6            LEA     $9000,SP
+00008506  3F03                       7            MOVE.W  D3,-(SP)
+00008508  6100 0008                  8            BSR     display
+0000850C  4FEF 0002                  9            LEA     2(SP),SP
+00008510  4E73                      10            RTE
+00008512  4E56 FFFC                 11  display   LINK    A6,#-4
+00008516  48E7 8000                 12            MOVEM.L D0,-(SP)
+0000851A  4280                      13            CLR.L   D0
+0000851C  302E 0008                 14            MOVE.W  8(A6),D0
+00008520  81FC 000A                 15            DIVS    #10,D0
+00008524  3D40 FFFC                 16            MOVE.W  D0,-4(A6)  ;moving quotient
+00008528  4840                      17            SWAP    D0         ;swapping D0
+0000852A  3D40 FFFE                 18            MOVE.W  D0,-2(A6)  ;moving remainder
+0000852E  0C6E 0000 FFFC            19            CMPI.W  #0,-4(A6)
+00008534  6700 000C                 20            BEQ     else
+00008538  3F2E FFFC                 21            MOVE.W  -4(A6),-(SP)
+0000853C  61D4                      22            BSR     display
+0000853E  4FEF 0002                 23            LEA     2(SP),SP       
+00008542  4280                      24  else      CLR.L   D0
+00008544  302E FFFE                 25            MOVE.W  -2(A6),D0
+00008548  0600 0030                 26            ADD.B   #$30,D0    ;converting to ASCII
+0000854C  4E41                      27            TRAP    #1         ;printing what's in D1
+0000854E  4CDF 0001                 28            MOVEM.L (SP)+,D0          
+00008552  4E5E                      29            UNLK    A6
+00008554  4E75                      30            RTS
+00008556                            31            
+00009500                            32            ORG     $9500
+00009500  4E45                      33  START     TRAP    #5
+00009502  4E4E                      34            TRAP    #14
+00009504                            35            END     START
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+DISPLAY             8512
+ELSE                8542
+START               9500
+T5                  8500

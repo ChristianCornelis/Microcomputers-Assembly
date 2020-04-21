@@ -1,0 +1,46 @@
+
+Source file: L5_4.X68
+Assembled on: 16-10-19 at: 19:34:38
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                        *Lab5_4.x68: Christian Cornelis
+    2                          
+    3  00008000                        ORG       $8000
+    4  00008000 303900009000 START:    MOVE.W    NUM1,D0
+    5  00008006 323900009002           MOVE.W    NUM2,D1
+    6  0000800C B041                   CMP.W     D1,D0                 ;;comparing num1 and num2
+    7  0000800E 6D000036               BLT       ELSE2                 ;;if false, going to else 2
+    8  00008012 323900009004           MOVE.W    NUM3,D1
+    9  00008018 B041                   CMP.W     D1,D0
+   10  0000801A 6D000016               BLT       ELSE1                 ;;if false, going to else1
+   11  0000801E 33F900009000           MOVE.W    NUM1,BIGGEST          ;;moving num1 to biggest and then biggest to D0 and exitting
+                00009006    
+   12  00008028 343900009006           MOVE.W    BIGGEST,D2
+   13  0000802E 60000050               BRA       EXIT
+   14  00008032 33F900009004 ELSE1:    MOVE.W    NUM3,BIGGEST          ;;moving num3 to biggest and then biggest to D0 and exitting
+                00009006    
+   15  0000803C 343900009006           MOVE.W    BIGGEST,D2
+   16  00008042 6000003C               BRA       EXIT
+   17  00008046 303900009002 ELSE2:    MOVE.W    NUM2,D0
+   18  0000804C 323900009004           MOVE.W    NUM3,D1
+   19  00008052 B041                   CMP.W     D1,D0                 ;;comparing num2 and num3
+   20  00008054 6D000016               BLT       ELSE3                 ;;if false, going to else 3
+   21  00008058 33F900009002           MOVE.W    NUM2,BIGGEST          ;;moving num2 to biggest and then biggest to D0 and exitting
+                00009006    
+   22  00008062 343900009006           MOVE.W    BIGGEST,D2
+   23  00008068 60000016               BRA       EXIT
+   24  0000806C 33F900009004 ELSE3:    MOVE.W    NUM3,BIGGEST
+                00009006    
+   25  00008076 343900009006           MOVE.W    BIGGEST,D2
+   26  0000807C 60000002               BRA       EXIT
+   27  00008080 4E4E         EXIT:     TRAP      #14                   ;;exitting
+   28                        
+   29  00009000                        ORG       $9000
+   30  00009000 0002         NUM1:     DC.W      2
+   31  00009002 0008         NUM2:     DC.W      8
+   32  00009004 FFFB         NUM3:     DC.W      -5
+   33  00009006 00000002     BIGGEST:  DS.W      1
+   34           00008000               END       START
+
+Lines: 34, Errors: 0, Warnings: 0.

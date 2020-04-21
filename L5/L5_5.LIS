@@ -1,0 +1,46 @@
+
+Source file: L5_5.X68
+Assembled on: 16-10-19 at: 19:34:50
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                        *Lab5_5.x68: Christian Cornelis
+    2                          
+    3  00008000                        ORG       $8000
+    4  00008000 303900009000 START:    MOVE.W    NUM1,D0
+    5  00008006 323900009002           MOVE.W    NUM2,D1
+    6  0000800C B041                   CMP.W     D1,D0                 ;;comparing num1 and num2
+    7  0000800E 6D000022               BLT       ELSEIF                ;;if false, going to elseIf
+    8  00008012 323900009004           MOVE.W    NUM3,D1               ;;if true, comparing num2 and num3
+    9  00008018 B041                   CMP.W     D1,D0
+   10  0000801A 6D000016               BLT       ELSEIF                ;;if false, going to elseIf
+   11  0000801E 33F900009000           MOVE.W    NUM1,BIGGEST          ;;if true, moving num1 to biggest and then biggest to D0 and exitting
+                00009006    
+   12  00008028 343900009006           MOVE.W    BIGGEST,D2
+   13  0000802E 6000004E               BRA       EXIT
+   14  00008032 303900009000 ELSEIF:   MOVE.W    NUM1,D0               ;;comparing num1 and num2
+   15  00008038 323900009002           MOVE.W    NUM2,D1
+   16  0000803E B240                   CMP.W     D0,D1
+   17  00008040 6D000028               BLT       ELSE                  ;;going to else if false
+   18  00008044 303900009002           MOVE.W    NUM2,D0               ;;if true, comparing num2 and num3
+   19  0000804A 323900009004           MOVE.W    NUM3,D1
+   20  00008050 B041                   CMP.W     D1,D0
+   21  00008052 6D000016               BLT       ELSE                  ;;if false, go to else
+   22  00008056 33F900009002           MOVE.W    NUM2,BIGGEST          ;;if true, move num2 to biggest and biggest to D0 and exitting
+                00009006    
+   23  00008060 303900009006           MOVE.W    BIGGEST,D0
+   24  00008066 60000016               BRA       EXIT
+   25  0000806A 33F900009004 ELSE:     MOVE.W    NUM3,BIGGEST          ;;moving num3 to biggest and then biggest to D0 and exitting
+                00009006    
+   26  00008074 343900009006           MOVE.W    BIGGEST,D2
+   27  0000807A 60000002               BRA       EXIT
+   28  0000807E 4E4E         EXIT:     TRAP      #14                   ;;exitting
+   29                        
+   30  00009000                        ORG       $9000
+   31  00009000 FFF6         NUM1:     DC.W      -$A
+   32  00009002 FFFB         NUM2:     DC.W      -5
+   33  00009004 FFFE         NUM3:     DC.W      -2
+   34  00009006 00000002     BIGGEST:  DS.W      1
+   35           00008000               END       START
+
+Lines: 35, Errors: 0, Warnings: 0.

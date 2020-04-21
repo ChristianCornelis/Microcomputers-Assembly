@@ -1,0 +1,31 @@
+
+Source file: L6_2.X68
+Assembled on: 16-10-26 at: 19:58:06
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                        *Lab6_3.x68: Christian Cornelis
+    2                          
+    3  00008000                        ORG       $8000
+    4  00008000 41F900009000 START:    LEA       STRING1,A0
+    5  00008006 43F900009020           LEA       STRING2,A1
+    6  0000800C 103C00FF               MOVE.B    #$FF,D0
+    7  00008010 1218         CODE:     MOVE.B    (A0)+,D1
+    8  00008012 1419                   MOVE.B    (A1)+,D2
+    9  00008014 B202                   CMP.B     D2,D1                 ;;if character != *pointer2++
+   10  00008016 67000006               BEQ       WHILE
+   11  0000801A 103C0000               MOVE.B    #$00,D0               ;;moving 00 to D0
+   12  0000801E 0C01000D     WHILE:    CMPI.B    #$D,D1
+   13  00008022 67000008               BEQ       EXIT
+   14  00008026 0C4000FF               CMPI      #$FF,D0
+   15  0000802A 67E4                   BEQ       CODE
+   16  0000802C 4E4E         EXIT:     TRAP      #14
+   17                              
+   18  00009000                        ORG       $9000
+   19  00009000 48656C6C6F0D STRING1:  DC.B      'Hello',$D
+   20                        
+   21  00009020                        ORG       $9020
+   22  00009020 48656C6C6F0D STRING2:  DC.B      'Hello',$D
+   23           00008000               END       START
+
+Lines: 23, Errors: 0, Warnings: 0.

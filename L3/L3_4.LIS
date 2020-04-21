@@ -1,0 +1,30 @@
+
+Source file: L3_4.X68
+Assembled on: 16-10-05 at: 17:51:47
+          by: X68K PC-2.2 Copyright (c) University of Teesside 1989,96
+Defaults: ORG $0/FORMAT/OPT A,BRL,CEX,CL,FRL,MC,MD,NOMEX,NOPCO
+
+    1                        
+    2                         
+    3  00008000                        ORG       $8000
+    4                        
+    5  00008000 303900009000 START:    MOVE.W    VAR1,D0               ;;moving W value
+    6  00008006 123900009004           MOVE.B    VAR3,D1               ;;moving Y value
+    7  0000800C 4881                   EXT.W     D1                    ;;extending y to a word
+    8  0000800E C3C0                   MULS.W    D0,D1                 ;;multiplying w and y values
+    9  00008010 343900009002           MOVE.W    VAR2,D2               ;;moving x value to d2
+   10  00008016 85FC0003               DIVS.W    #3,D2                 ;;dividing
+   11  0000801A D242                   ADD.W     D2,D1                 ;;adding product and quotient
+   12  0000801C 33C100009006           MOVE.W    D1,VAR4               ;;moving answer to var4
+   13  00008022 4E4E                   TRAP      #14
+   14                        
+   15  00009000                        ORG       $9000
+   16  00009000 0002         VAR1:     DC.W      2                     ;;W
+   17  00009002 0003         VAR2:     DC.W      3                     ;;X
+   18  00009004 04           VAR3:     DC.B      4                     ;;Y
+   19  00009005 00000001               DS.B      1                     ;;SPACE to align memory correctly
+   20  00009006 00000004     VAR4:     DS.L      1                     ;;Z
+   21                          
+   22           00008000               END       START
+
+Lines: 22, Errors: 0, Warnings: 0.

@@ -1,0 +1,58 @@
+00008004 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.15.02
+Created On: 11/23/2016 8:15:18 PM
+
+00000000                             1  ******************************************************
+00000000                             2  * TWOHZ.x68                                          *
+00000000                             3  *                                                    *
+00000000                             4  * This program uses the 68681 timer to create a 2 Hz *
+00000000                             5  * square wave on OP3.  If the 68681 X1 input is      *
+00000000                             6  * driven at 3.6864 MHz, then the frequency on OP3    *
+00000000                             7  * equals                                             *
+00000000                             8  *                                                    *
+00000000                             9  *       3686400 / 2 / 16 / COUNT                     *
+00000000                            10  *                                                    *
+00000000                            11  * where COUNT is the 16-bit integer in the timer     *
+00000000                            12  * registers CTUR and CTLR.  CTUR holds the upper     *
+00000000                            13  * byte, CTLR holds the lower byte.                   *
+00000000                            14  ******************************************************
+00000000  =0000C001                 15  DUART    EQU      $00C001  ;68681 base address
+00000000  =00000008                 16  ACR      EQU      4*2      ;auxiliary control reg.
+00000000  =0000000C                 17  CTUR     EQU      6*2      ;counter/timer upper reg.
+00000000  =0000000E                 18  CTLR     EQU      7*2      ;counter/timer lower reg.
+00000000  =0000001A                 19  OPCR     EQU      13*2     ;output port config. reg.
+00000000  =00003840                 20  COUNT    EQU      14400    ;8 Hz count (see above)
+00000000  =0000001C                 21  OPR_SET  EQU      14*2        ;set bit command reg.
+00000000  =0000001E                 22  OPR_CLR  EQU      15*2        ;clear bit cmd. reg.
+00000000                            23  
+00008000                            24           ORG      $8000
+00008000  123C 00FF                 25           MOVE.B   #$FF,D1
+00008004  207C 0000C001             26  TWOHZ    MOVEA.L  #DUART,A0
+0000800A  203C 00003840             27           MOVE.L   #COUNT,D0
+Line 28 ERROR: Undefined symbol
+00008010  1028 052A                 28           MOVE.B   ISR(A0),D0
+00008014  C03C 0008                 29           AND.B    #8,D0
+00008018  0188 000C                 30           MOVEP.W  D0,CTUR(A0)
+0000801C  117C 0070 0008            31           MOVE.B   #$70,ACR(A0)   ;crystal clock / 16
+00008022  1141 001E                 32           MOVE.B   D1,OPR_CLR(A0) ;clr. bits, set pins
+00008026  4601                      33           NOT.B    D1
+00008028  1141 001C                 34           MOVE.B   D1,OPR_SET(A0) ;set bits, clr. pins
+0000802C  4E4E                      35           TRAP     #14            ;now relax a bit
+0000802E                            36           END      TWOHZ
+
+1 error detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+ACR                 8
+COUNT               3840
+CTLR                E
+CTUR                C
+DUART               C001
+OPCR                1A
+OPR_CLR             1E
+OPR_SET             1C
+TWOHZ               8004
